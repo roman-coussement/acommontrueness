@@ -149,9 +149,25 @@ a:hover {
     margin-bottom: var(--space-lg);
 }
 
-.site-subtitle .company {
+.site-subtitle .company-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35em;
+    vertical-align: baseline;
     color: var(--color-text-primary);
     font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.site-subtitle .company-link:hover {
+    color: var(--color-text-link);
+}
+
+.site-subtitle .farai-logo {
+    height: 0.8em;
+    width: auto;
+    vertical-align: baseline;
 }
 
 /* Social Links */
