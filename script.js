@@ -13,8 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
         name: 'roman coussement',
         title: 'a common trueness'
     };
-    let currentState = 'name';
+    let currentState = sessionStorage.getItem('titleState') || 'name';
+    if (currentState !== 'name' && currentState !== 'title') {
+        currentState = 'name';
+    }
     let activeBaffle = null;
+
+    titleElement.textContent = states[currentState];
 
     titleElement.style.cursor = 'pointer';
     titleElement.style.userSelect = 'none';
@@ -43,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(function() {
                 currentState = targetState;
+                sessionStorage.setItem('titleState', currentState);
             }, 1000);
         }, 1000);
     });
