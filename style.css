@@ -132,6 +132,14 @@ a:hover {
     color: var(--color-text-primary);
     margin-bottom: var(--space-sm);
     line-height: var(--line-height-tight);
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Prevent text selection during animation */
+.site-title.animating {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .site-subtitle {

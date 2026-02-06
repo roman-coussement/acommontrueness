@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Baffle Test</title>
+</head>
+<body>
+    <h1 class="site-title">roman coussement</h1>
+    <p>Click the title above. You should see a scramble animation.</p>
+
+    <script src="assets/baffle.min.js"></script>
+    <script>
+        console.log('baffle loaded:', typeof baffle);
+        document.querySelector('.site-title').addEventListener('click', function() {
+            console.log('clicked');
+            var b = baffle('.site-title', { characters: '~!@#$%^&*', speed: 50 });
+            b.start();
+            setTimeout(function() {
+                b.text(function() { return 'a common trueness'; });
+                b.reveal(1000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
