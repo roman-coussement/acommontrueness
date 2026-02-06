@@ -161,7 +161,7 @@ a:hover {
 }
 
 .site-subtitle .company-link:hover {
-    color: var(--color-text-link);
+    color: var(--color-text-link) !important;
 }
 
 .site-subtitle .farai-logo {
