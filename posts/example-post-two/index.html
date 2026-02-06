@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Why I chose HTML and CSS over frameworks for my personal site.">
-    <title>Static Sites Still Matter - roman coussement</title>
+    <meta name="description" content="Less is more: principles for creating focused, purposeful interfaces.">
+    <title>Minimalism in Design - roman coussement</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -48,19 +48,19 @@
             <!-- Navigation Menu (mobile) -->
             <nav class="nav-menu nav-menu-mobile">
                 <a href="/" class="nav-item">writing</a>
-                <a href="/projects" class="nav-item">projects</a>
+                <a href="/projects/" class="nav-item">projects</a>
                 <a href="/library" class="nav-item">library</a>
-                <a href="/bookmarks" class="nav-item">bookmarks</a>
+                <a href="/bookmarks/" class="nav-item">bookmarks</a>
             </nav>
 
             <!-- Content with Sidebar -->
             <div class="content-with-sidebar">
                 <!-- Navigation Menu (desktop) -->
                 <nav class="nav-menu nav-menu-desktop">
-                    <a href="../index.html" class="nav-item">writing</a>
-                    <a href="../projects.html" class="nav-item">projects</a>
-                    <a href="../library.html" class="nav-item">library</a>
-                    <a href="../bookmarks.html" class="nav-item">bookmarks</a>
+                <a href="/" class="nav-item">writing</a>
+                <a href="/projects/" class="nav-item">projects</a>
+                <a href="/library" class="nav-item">library</a>
+                <a href="/bookmarks/" class="nav-item">bookmarks</a>
                 </nav>
 
                 <!-- Article Content -->
@@ -76,29 +76,33 @@
 
         <article class="article">
             <div class="article-meta">
-                <time class="article-date" datetime="2025-02-01">February 1, 2025</time>
+                <time class="article-date" datetime="2025-01-22">January 22, 2025</time>
             </div>
 
-            <h1 class="article-title">Static Sites Still Matter</h1>
+            <h1 class="article-title">Minimalism in Design</h1>
 
             <div class="article-body">
-                <p>When I decided to build this site, I had a choice: use a modern framework like Next.js or Astro, or stick with plain HTML and CSS. I chose the latter. Here's why.</p>
+                <p>Minimalism in design isn't about removing things for the sake of it. It's about removing everything that doesn't serve a purpose. Every element should earn its place on the screen.</p>
 
-                <h2>Simplicity wins</h2>
-                <p>A personal site with a handful of articles doesn't need a build step, a package manager, or a deployment pipeline. It needs to load fast, render correctly, and be easy to maintain. HTML and CSS deliver all of that with zero dependencies.</p>
+                <h2>Core principles</h2>
+                <p>When approaching a new interface, I ask three questions:</p>
+                <ul>
+                    <li>Does this element help the user complete their task?</li>
+                    <li>Would removing it make the experience worse?</li>
+                    <li>Is there a simpler way to convey the same information?</li>
+                </ul>
 
-                <h2>Performance by default</h2>
-                <p>Static HTML loads instantly. There's no JavaScript to parse, no hydration to wait for, no client-side routing. The browser receives the document and displays it. On slow connections or older devices, that difference is noticeable.</p>
+                <h2>Typography as foundation</h2>
+                <p>In a minimal design, typography carries most of the weight. Font choice, size, and spacing create hierarchy without relying on decorative elements. A well-set block of text can be more impactful than a dozen icons and badges.</p>
 
                 <blockquote>
-                    <p>"The fastest code is the code you don't run."</p>
+                    <p>"Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away." — Antoine de Saint-Exupéry</p>
                 </blockquote>
 
-                <h2>Future-proof structure</h2>
-                <p>I've structured this site so that migrating to a static site generator like 11ty would be straightforward. The HTML is semantic, the CSS is modular, and the content is separated from presentation. When I outgrow manual updates, I can add a build step without rewriting everything.</p>
+                <h2>Whitespace is content</h2>
+                <p>Empty space isn't wasted space. It gives the eye room to breathe and directs attention to what matters. Crowded interfaces create cognitive overload; generous spacing creates clarity. The best minimal designs feel almost sparse—until you realize every pixel was intentional.</p>
 
-                <h2>When to use more</h2>
-                <p>Frameworks excel when you need interactivity, dynamic data, or complex routing. For a blog or portfolio, they're often overkill. Choose the right tool for the job—and for a simple personal site, the right tool might be the simplest one.</p>
+                <p>For more on design systems, see resources like <a href="https://refactoringui.com" target="_blank" rel="noopener noreferrer">Refactoring UI</a> and the work of Dieter Rams.</p>
             </div>
 
             <div class="article-footer">

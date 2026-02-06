@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         name: 'roman coussement',
         title: 'a common trueness'
     };
-    let currentState = sessionStorage.getItem('titleState') || 'name';
+    let currentState = localStorage.getItem('titleState') || 'name';
     if (currentState !== 'name' && currentState !== 'title') {
         currentState = 'name';
     }
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(function() {
                 currentState = targetState;
-                sessionStorage.setItem('titleState', currentState);
+                localStorage.setItem('titleState', currentState);
             }, 1000);
         }, 1000);
     });
