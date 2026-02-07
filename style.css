@@ -611,6 +611,134 @@ a:hover {
 }
 
 /* --------------------------------------------
+   ART GALLERY (Optimized for Smooth Resizing)
+   -------------------------------------------- */
+
+/* Container for the artwork */
+.art-gallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Transform moves from viewport origin to position left of title, flush with top */
+    transform: translate(var(--gallery-x, 0px), var(--gallery-y, 0px));
+    width: auto;
+    height: auto;
+    padding: var(--space-xl);
+    z-index: 10;
+    pointer-events: none; /* Allow clicks through container */
+    
+    /* Smooth transitions for all movements */
+    transition: 
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease-in-out;
+    
+    /* Hint to browser that element will transform */
+    will-change: transform;
+    
+    /* Initial opacity */
+    opacity: 1;
+}
+
+/* The image itself */
+.art-image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: var(--gallery-max-height, 400px);
+    max-width: var(--gallery-max-width, none);
+    cursor: pointer;
+    pointer-events: auto; /* Enable clicks on image */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    /* Smooth size transitions */
+    transition: 
+        opacity var(--transition-normal),
+        max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Optimize for frequent updates */
+    will-change: max-height;
+}
+
+/* Hover effect on desktop */
+@media (hover: hover) {
+    .art-image:hover {
+        opacity: 0.85;
+    }
+}
+
+/* Desktop layout: painting in left margin */
+@media (min-width: 1200px) {
+    .art-gallery {
+        display: block;
+    }
+    
+    .art-image {
+        width: auto;
+    }
+}
+
+/* Tablet/small desktop: painting at bottom (same as mobile) */
+@media (min-width: 900px) and (max-width: 1199px) {
+    .art-gallery {
+        position: static;
+        display: block;
+        width: 100%;
+        padding: var(--space-xl) var(--container-padding);
+        margin-top: var(--space-3xl);
+        transform: none;
+        transition: opacity 0.2s ease-in-out;
+    }
+    
+    .art-image {
+        width: 100%;
+        height: auto;
+        max-height: none;
+    }
+}
+
+/* Mobile layout: painting at bottom of page */
+@media (max-width: 899px) {
+    .art-gallery {
+        position: static;
+        display: block;
+        width: 100%;
+        padding: var(--space-xl) var(--container-padding);
+        margin-top: var(--space-3xl);
+        transform: none; /* No transform on mobile */
+        transition: opacity 0.2s ease-in-out;
+    }
+    
+    .art-image {
+        width: 100%;
+        height: auto;
+        max-height: none;
+    }
+}
+
+/* Hide on article pages */
+body.article-page .art-gallery {
+    display: none;
+}
+
+/* When no left-margin space on desktop: show at bottom instead of hiding */
+.art-gallery.gallery-at-bottom {
+    position: static;
+    display: block;
+    width: 100%;
+    padding: var(--space-xl) var(--container-padding);
+    margin-top: var(--space-3xl);
+    transform: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.art-gallery.gallery-at-bottom .art-image {
+    width: 100%;
+    height: auto;
+    max-height: none;
+}
+
+/* --------------------------------------------
    SITE FOOTER
    -------------------------------------------- */
 .site-footer {
