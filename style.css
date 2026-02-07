@@ -684,6 +684,7 @@ a:hover {
         position: static;
         display: block;
         width: 100%;
+        max-width: 100%;
         padding: var(--space-xl) var(--container-padding);
         margin-top: var(--space-3xl);
         transform: none;
@@ -692,6 +693,7 @@ a:hover {
     
     .art-image {
         width: 100%;
+        max-width: 100%;
         height: auto;
         max-height: none;
     }
@@ -703,6 +705,7 @@ a:hover {
         position: static;
         display: block;
         width: 100%;
+        max-width: 100%;
         padding: var(--space-xl) var(--container-padding);
         margin-top: var(--space-3xl);
         transform: none; /* No transform on mobile */
@@ -711,6 +714,7 @@ a:hover {
     
     .art-image {
         width: 100%;
+        max-width: 100%;
         height: auto;
         max-height: none;
     }
@@ -726,6 +730,7 @@ body.article-page .art-gallery {
     position: static;
     display: block;
     width: 100%;
+    max-width: 100%;
     padding: var(--space-xl) var(--container-padding);
     margin-top: var(--space-3xl);
     transform: none;
@@ -734,6 +739,7 @@ body.article-page .art-gallery {
 
 .art-gallery.gallery-at-bottom .art-image {
     width: 100%;
+    max-width: 100%;
     height: auto;
     max-height: none;
 }

@@ -3,9 +3,17 @@
 (function() {
     'use strict';
     
+    // Base path for GitHub Pages (works with subpath or root)
+    var scriptEl = document.currentScript || document.querySelector('script[src*="art-gallery"]');
+    var BASE = '/';
+    if (scriptEl && scriptEl.src) {
+        var url = new URL(scriptEl.src);
+        BASE = url.pathname.replace(/\/[^/]*$/, '/') || '/';
+    }
+    
     // Configuration
-    const ARTWORK_FOLDER = '/artwork/';
-    const ARTWORK_MANIFEST = '/artwork/artwork.json';
+    const ARTWORK_FOLDER = BASE + 'artwork/';
+    const ARTWORK_MANIFEST = BASE + 'artwork/artwork.json';
     const DEFAULT_IMAGE = 'iceland_photo.png';
     const SESSION_KEY = 'currentArtwork';
     const HISTORY_KEY = 'artworkHistory';
@@ -91,6 +99,11 @@
             // Attach optimized resize listener
             window.addEventListener('resize', function() {
                 handleResize(gallery, image);
+            });
+            
+            // Reposition after full page load (fonts, images) - fixes GitHub Pages timing
+            window.addEventListener('load', function() {
+                positionGallery(gallery, image);
             });
             
             // Smooth scroll handling
@@ -238,7 +251,12 @@
         const lastNavItem = document.querySelector('.nav-menu-desktop .nav-item:last-child');
         
         if (!titleElement || !lastNavItem) {
-            gallery.classList.add('hidden');
+            gallery.classList.remove('hidden');
+            gallery.classList.add('gallery-at-bottom');
+            gallery.style.removeProperty('--gallery-x');
+            gallery.style.removeProperty('--gallery-y');
+            gallery.style.removeProperty('--gallery-max-height');
+            gallery.style.removeProperty('--gallery-max-width');
             return;
         }
         
