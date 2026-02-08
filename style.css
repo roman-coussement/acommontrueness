@@ -221,6 +221,16 @@ a:hover {
     height: 100%;
 }
 
+/* Scale X icon up 10% */
+.social-link:first-child .social-icon {
+    transform: scale(1.1);
+}
+
+/* Scale Substack logo down 10% */
+.social-link:last-child .social-icon {
+    transform: scale(0.9);
+}
+
 .social-username {
     font-size: var(--font-size-base);
 }
@@ -253,6 +263,10 @@ a:hover {
     color: var(--color-text-body);
     line-height: var(--line-height-relaxed);
     margin-bottom: 0;
+}
+
+.bio-text + .bio-text {
+    margin-top: var(--space-md);
 }
 
 .bio-text a {

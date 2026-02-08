@@ -242,6 +242,7 @@
             gallery.style.removeProperty('--gallery-y');
             gallery.style.removeProperty('--gallery-max-height');
             gallery.style.removeProperty('--gallery-max-width');
+            gallery.style.paddingTop = '';
             gallery.classList.remove('hidden');
             gallery.classList.remove('gallery-at-bottom');
             return;
@@ -257,6 +258,7 @@
             gallery.style.removeProperty('--gallery-y');
             gallery.style.removeProperty('--gallery-max-height');
             gallery.style.removeProperty('--gallery-max-width');
+            gallery.style.paddingTop = '';
             return;
         }
         
@@ -269,7 +271,6 @@
         const spacing = 20;
         const minLeftMargin = 24;
         const padding = 32; // var(--space-xl) horizontal padding each side
-        
         // Max width available for image in left margin (consistent for all images at this viewport)
         const availableWidth = titleRect.left - spacing - minLeftMargin - (padding * 2);
         
@@ -292,7 +293,7 @@
         
         // Calculate X position: align right edge with left edge of title
         const galleryX = titleRect.left - galleryWidth - spacing;
-        const galleryY = titleRect.top - 4;
+        const galleryY = titleRect.top + 12; // Halfway between title top and +24px
         
         // ===== BATCH REMAINING WRITES =====
         
@@ -303,9 +304,11 @@
         if (useLeftMargin) {
             gallery.classList.remove('hidden');
             gallery.classList.remove('gallery-at-bottom');
+            gallery.style.paddingTop = '0'; // Remove top padding so image top aligns with title top
         } else {
             gallery.classList.remove('hidden');
             gallery.classList.add('gallery-at-bottom');
+            gallery.style.paddingTop = ''; // Restore default padding
         }
     }
 
