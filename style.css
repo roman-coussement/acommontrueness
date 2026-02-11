@@ -170,10 +170,11 @@ a:hover {
     vertical-align: baseline;
 }
 
-/* Social Links */
+/* Social Links - grid keeps vertical alignment in 2+1 layout */
 .social-links {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, max-content));
+    padding-top: 1px; /* compensate for overlap so first row doesn’t move up */
 }
 
 .social-link {
@@ -181,10 +182,11 @@ a:hover {
     align-items: center;
     gap: var(--space-xs);
     
-    /* Add border and padding - more right padding for breathing room */
+    /* Border and padding; negative margins so boxes stay flush when wrapping */
     border: 1px solid var(--color-border);
     padding: var(--space-xs) var(--space-lg) var(--space-xs) var(--space-sm);
     margin-left: -1px;
+    margin-top: -1px;
     
     /* Set default background */
     background-color: #fbfcfd;
@@ -802,6 +804,287 @@ body.article-page .art-gallery {
 */
 
 /* --------------------------------------------
+   LIBRARY PAGE - ISOLATED LAYOUT
+   -------------------------------------------- */
+
+body.library-page {
+    background-color: #ffffff;
+}
+
+.library-layout {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--container-padding);
+    min-height: 100vh;
+}
+
+.library-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-2xl);
+}
+
+.back-arrow {
+    font-size: 21.6px; /* 10% smaller than 24px */
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    line-height: 1;
+    padding: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    transform: translateY(2px); /* optically center stick with title */
+}
+
+.back-arrow:hover {
+    color: var(--color-text-link);
+}
+
+.library-header .site-title {
+    margin: 0;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    user-select: none;
+}
+
+.library-intro {
+    margin: 0 0 var(--space-lg);
+    font-size: var(--font-size-base);
+    color: var(--color-text-body);
+    line-height: var(--line-height-normal);
+}
+
+/* --------------------------------------------
+   LIBRARY TABLE - MINIMAL DESIGN
+   -------------------------------------------- */
+
+.library-container {
+    margin-top: 0;
+}
+
+.library-filters {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    flex-wrap: nowrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-small);
+    font-family: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    background-color: #ffffff;
+    transition: border-color var(--transition-fast);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-text-secondary);
+}
+
+.search-input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.filter-select {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-small);
+    font-family: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+    min-width: 120px;
+    max-width: 150px;
+}
+
+.filter-select:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--color-text-secondary);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: var(--space-lg);
+}
+
+.library-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-base);
+}
+
+.library-table thead {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.library-table th {
+    text-align: left;
+    padding: var(--space-xs) var(--space-sm);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.library-table th.sortable {
+    cursor: pointer;
+    transition: color var(--transition-fast);
+    position: relative;
+    padding-right: var(--space-md);
+}
+
+.library-table th.sortable:hover {
+    color: var(--color-text-primary);
+}
+
+.library-table th.sortable::after {
+    content: '';
+    position: absolute;
+    right: var(--space-xs);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    opacity: 0.3;
+}
+
+.library-table th.sortable.sorted-asc::after {
+    border-bottom: 5px solid currentColor;
+    opacity: 1;
+}
+
+.library-table th.sortable.sorted-desc::after {
+    border-top: 5px solid currentColor;
+    opacity: 1;
+}
+
+.library-table td {
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-body);
+    line-height: 1.4;
+}
+
+.library-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.library-table th:first-child,
+.library-table td:first-child {
+    width: 30%;
+}
+
+.library-table th:last-child,
+.library-table td:last-child {
+    width: 70%;
+}
+
+.library-table .no-results,
+.library-table .loading {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    padding: var(--space-xl);
+}
+
+.pagination {
+    margin-top: var(--space-md);
+}
+
+.pagination-controls {
+    display: flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-small);
+    font-family: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    background-color: #ffffff;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    min-width: 32px;
+    text-align: center;
+}
+
+.page-btn:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.page-btn.active {
+    background-color: var(--color-text-primary);
+    color: #ffffff;
+    border-color: var(--color-text-primary);
+}
+
+.page-ellipsis {
+    padding: var(--space-xs);
+    color: var(--color-text-secondary);
+}
+
+.error-message {
+    color: #dc2626;
+    text-align: center;
+    padding: var(--space-xl);
+}
+
+/* Library Mobile Responsive */
+@media (max-width: 768px) {
+    .library-layout {
+        padding: var(--space-lg) var(--container-padding);
+    }
+    
+    .library-header {
+        margin-bottom: var(--space-lg);
+    }
+    
+    .library-filters {
+        flex-wrap: wrap;
+    }
+    
+    .search-input {
+        width: 100%;
+        flex-basis: 100%;
+    }
+    
+    .filter-select {
+        flex: 1;
+        min-width: 0;
+        max-width: none;
+    }
+    
+    .library-table {
+        font-size: var(--font-size-small);
+    }
+    
+    .library-table th,
+    .library-table td {
+        padding: var(--space-xs);
+    }
+}
+
+/* --------------------------------------------
    RESPONSIVE DESIGN
    -------------------------------------------- */
 
@@ -819,10 +1102,6 @@ body.article-page .art-gallery {
     
     .site-header {
         margin-bottom: var(--space-xl);
-    }
-    
-    .social-links {
-        gap: var(--space-md);
     }
     
     .article-title {
