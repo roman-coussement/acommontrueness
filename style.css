@@ -4,6 +4,73 @@
    ============================================ */
 
 /* --------------------------------------------
+   FONTS
+   -------------------------------------------- */
+@font-face {
+    font-family: "Figtree";
+    src: url("Figtree/Figtree-VariableFont_wght.ttf") format("truetype");
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("Figtree/Figtree-Italic-VariableFont_wght.ttf") format("truetype");
+    font-weight: 300 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Urbanist";
+    src: url("Urbanist/Urbanist-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Urbanist";
+    src: url("Urbanist/Urbanist-Italic-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Averia Serif Libre";
+    src: url("Averia_Serif_Libre/AveriaSerifLibre-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Averia Serif Libre";
+    src: url("Averia_Serif_Libre/AveriaSerifLibre-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Averia Serif Libre";
+    src: url("Averia_Serif_Libre/AveriaSerifLibre-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Averia Serif Libre";
+    src: url("Averia_Serif_Libre/AveriaSerifLibre-BoldItalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* --------------------------------------------
    CSS CUSTOM PROPERTIES (DESIGN TOKENS)
    -------------------------------------------- */
 :root {
@@ -12,15 +79,16 @@
     --color-text-body: #374151;         /* Medium-dark gray for body */
     --color-text-secondary: #6b7280;    /* Medium gray for subtitles */
     --color-text-tertiary: #9ca3af;     /* Light gray for metadata */
-    --color-text-link: #3b82f6;         /* Bright blue for links */
-    --color-text-link-hover: #2563eb;   /* Darker blue on hover */
+    --color-text-link: #c47222;         /* Horseman icon color - warm orange/terracotta */
+    --color-text-link-hover: #c47222;   /* Same as link (horseman icon) */
     
     --color-bg-primary: #fbfcfd;       /* Subtle grey background */
     --color-bg-hover: #f9fafb;          /* Very subtle gray hover */
     --color-border: #e5e7eb;            /* Light gray borders */
     
     /* Typography */
-    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-heading: "Averia Serif Libre", Georgia, "Times New Roman", serif;
+    --font-family-base: "Averia Serif Libre", Georgia, "Times New Roman", serif;
     
     --font-size-xlarge: 2.25rem;        /* 36px - Main name */
     --font-size-large: 1.5rem;          /* 24px - Section headers */
@@ -87,6 +155,7 @@ body {
    TYPOGRAPHY
    -------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
     color: var(--color-text-primary);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
@@ -127,6 +196,7 @@ a:hover {
 }
 
 .site-title {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xlarge);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
@@ -252,6 +322,7 @@ a:hover {
 }
 
 .bio-header {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
@@ -437,6 +508,7 @@ a:hover {
 }
 
 .post-title {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
@@ -471,6 +543,47 @@ a:hover {
 .post-item:hover .post-arrow {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* --------------------------------------------
+   PROJECTS LIST (no icons)
+   -------------------------------------------- */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.project-item {
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background-color: #fbfcfd;
+    transition: background-color var(--transition-normal);
+}
+
+.project-item:first-child {
+    border-top: 1px solid var(--color-border);
+}
+
+.project-item:hover {
+    background-color: #ffffff;
+}
+
+.project-item-inner {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px var(--space-md);
+}
+
+.project-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: var(--line-height-normal);
 }
 
 /* --------------------------------------------
@@ -516,6 +629,7 @@ a:hover {
 }
 
 .article-title {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xlarge);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
@@ -767,6 +881,38 @@ body.article-page .art-gallery {
     display: none;
 }
 
+/* --------------------------------------------
+   PAST PRESENT ICON (bottom-right, writing & projects only)
+   -------------------------------------------- */
+.pastpresent-icon {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    width: 48px;
+    height: 56px;
+    z-index: 100;
+    display: block;
+    background: none;
+}
+
+.pastpresent-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scaleX(-1); /* flip so figure faces left */
+    transition: filter var(--transition-fast);
+    display: block;
+}
+
+.pastpresent-icon:hover img,
+.pastpresent-icon:focus img {
+    filter: brightness(0) saturate(100%) invert(73%) sepia(35%) saturate(1500%) hue-rotate(10deg);
+}
+
+.pastpresent-icon:active img {
+    filter: brightness(0) saturate(100%) invert(73%) sepia(35%) saturate(1500%) hue-rotate(10deg);
+}
+
 /* When no left-margin space on desktop: show at bottom instead of hiding */
 .art-gallery.gallery-at-bottom {
     position: static;
@@ -903,6 +1049,11 @@ body.library-page {
     transition: border-color var(--transition-fast);
     min-width: 120px;
     max-width: 150px;
+    color: var(--color-text-primary);
+}
+
+.filter-select.placeholder-selected {
+    color: var(--color-text-secondary);
 }
 
 .filter-select:hover {

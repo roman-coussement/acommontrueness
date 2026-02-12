@@ -21,8 +21,16 @@
     
     // Fallback list when artwork.json is unavailable (e.g. local file, network error)
     const FALLBACK_ARTWORK = [
+        'ansel-adams-moon-over-half-domr.png',
+        'ansel-adams-petroglyphs.jpg',
         'caravaggio_beheading_of_john.jpg',
         'caravaggio_judith_beheading_holofernes.jpg',
+        'fayum_mummy.jpg',
+        'fayum_mummy_2.jpg',
+        'gordon-parks-the-invisible-man.jpg',
+        'goya-el-colosso.jpg',
+        'goya_2ndmay.jpg',
+        'goya_thedog.jpg',
         'hockney_american_collectors_fred_and_marcia_weisman.jpg',
         'hockney_my_parents.jpg',
         'hockney_portrait_of_an_artist.avif',
@@ -30,12 +38,16 @@
         'hopper_gas.png',
         'hopper_soir_bleu.jpg',
         'iceland_photo.png',
+        'kandinsky-color-study.jpg',
+        'kandinsky-impression-iii-concert.jpg',
         'mondrian_broadway_boogie-woogie.jpg',
         'mondrian_windmill_in_sunglight.jpg',
         'picasso_bulls_head.jpg',
         'picasso_don_quixote.jpg',
         'picasso_guernica.jpg',
-        'picasso_le_taureau.jpg'
+        'picasso_le_taureau.jpg',
+        'rembrandt-syndics-of-the-drapers-guild.jpg',
+        'w-eugene-smith-steelworker-with-goggles.jpg'
     ];
     
     let artworkFiles = [];

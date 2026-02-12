@@ -4,7 +4,7 @@
     'use strict';
     
     // Configuration
-    const CSV_FILE = '/books.csv';
+    const CSV_FILE = '/library.csv';
     const ITEMS_PER_PAGE = 100;
     
     // State
@@ -46,7 +46,7 @@
             })
             .catch(error => {
                 console.error('Error loading library data:', error);
-                showError('Unable to load library. Please check that books.csv exists.');
+                showError('Unable to load library. Please check that library.csv exists.');
             });
     }
     
@@ -125,20 +125,30 @@
             });
         };
         
-        updateDropdown('categoryFilter', 'type', getFilteredBooksFor('type'));
-        updateDropdown('tagFilter', 'tag', getFilteredBooksFor('tag'));
-        updateDropdown('subtagFilter', 'sub-tag', getFilteredBooksFor('subtag'));
+        updateDropdown('categoryFilter', 'type', getFilteredBooksFor('type'), 'Type');
+        updateDropdown('tagFilter', 'tag', getFilteredBooksFor('tag'), 'Tag');
+        updateDropdown('subtagFilter', 'sub-tag', getFilteredBooksFor('subtag'), 'Sub-tag');
+    }
+    
+    // Toggle grey/black text on filter dropdowns based on placeholder selection
+    function updatePlaceholderStyles() {
+        ['categoryFilter', 'tagFilter', 'subtagFilter'].forEach(id => {
+            const select = document.getElementById(id);
+            if (select) {
+                select.classList.toggle('placeholder-selected', select.value === '');
+            }
+        });
     }
     
     // Update a single dropdown with available options
-    function updateDropdown(elementId, field, books) {
+    function updateDropdown(elementId, field, books, placeholderLabel) {
         const select = document.getElementById(elementId);
         if (!select) return;
         
         const values = [...new Set(books.map(b => b[field]).filter(Boolean))].sort();
         const currentValue = select.value;
         
-        select.innerHTML = '<option value="">All</option>';
+        select.innerHTML = '<option value="">' + (placeholderLabel || 'All') + '</option>';
         values.forEach(value => {
             const option = document.createElement('option');
             option.value = value;
@@ -146,6 +156,8 @@
             if (value === currentValue) option.selected = true;
             select.appendChild(option);
         });
+        
+        updatePlaceholderStyles();
     }
     
     // Attach filter change listeners
@@ -161,6 +173,7 @@
             if (select) {
                 select.addEventListener('change', function() {
                     filters[filterKey] = this.value;
+                    updatePlaceholderStyles();
                     applyFilters();
                 });
             }
