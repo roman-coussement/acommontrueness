@@ -242,6 +242,14 @@ a:hover {
     vertical-align: baseline;
 }
 
+/* Epoch AI wordmark - inline with subtitle text */
+.site-subtitle .epoch-logo {
+    display: block;
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+}
+
 /* Social Links - grid keeps vertical alignment in 2+1 layout */
 .social-links {
     display: grid;
@@ -587,6 +595,16 @@ a:hover {
     line-height: var(--line-height-normal);
 }
 
+.project-title .project-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.project-title .project-link:hover {
+    color: var(--color-text-link);
+}
+
 /* --------------------------------------------
    BACK NAVIGATION
    -------------------------------------------- */
@@ -803,8 +821,8 @@ a:hover {
     height: auto;
     max-height: var(--gallery-max-height, 400px);
     max-width: var(--gallery-max-width, none);
-    cursor: pointer;
-    pointer-events: auto; /* Enable clicks on image */
+    cursor: default;
+    pointer-events: none; /* Static, non-interactive image */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     
     /* Smooth size transitions */
@@ -815,13 +833,6 @@ a:hover {
     
     /* Optimize for frequent updates */
     will-change: max-height;
-}
-
-/* Hover effect on desktop */
-@media (hover: hover) {
-    .art-image:hover {
-        opacity: 0.85;
-    }
 }
 
 /* Desktop layout: painting in left margin */
@@ -941,6 +952,27 @@ body.article-page .art-gallery {
 }
 
 /* --------------------------------------------
+   F&F BUTTON (understated, bottom-left)
+   -------------------------------------------- */
+.ff-link {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: var(--space-lg);
+    z-index: 100;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-xsmall);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.ff-link:hover {
+    opacity: 1;
+    color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------
    SITE FOOTER
    -------------------------------------------- */
 .site-footer {
@@ -1008,6 +1040,119 @@ body.library-page {
     font-size: var(--font-size-base);
     color: var(--color-text-body);
     line-height: var(--line-height-normal);
+}
+
+/* --------------------------------------------
+   F&F GATE + FRIENDS & FAMILY PAGE
+   -------------------------------------------- */
+.gate-form {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.gate-input {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: auto;
+}
+
+.gate-submit {
+    flex: 0 0 auto;
+}
+
+.gate-error {
+    margin-top: var(--space-md);
+    color: #dc2626;
+    font-size: var(--font-size-base);
+}
+
+.ff-title {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+}
+
+.ff-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ff-list li {
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+}
+
+.ff-list a {
+    color: var(--color-text-link);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.ff-list a:hover {
+    color: var(--color-text-link-hover);
+    text-decoration: underline;
+}
+
+/* --------------------------------------------
+   GALLERY PAGE - ISOLATED LAYOUT + CAROUSEL
+   -------------------------------------------- */
+
+body.gallery-page {
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+.gallery-intro-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--container-padding) 0;
+}
+
+.gallery-carousel {
+    margin-top: var(--space-lg);
+    width: 100%;
+    overflow: hidden;          /* no visible scrollbar; position controlled via JS */
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;        /* horizontal drag handled manually */
+}
+
+.gallery-carousel.dragging {
+    cursor: grabbing;
+}
+
+.gallery-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+}
+
+.gallery-image {
+    display: block;
+    height: 60vh;
+    width: auto;
+    flex: 0 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;      /* clicks/drag handled by the container */
+}
+
+@media (max-width: 768px) {
+    .gallery-intro-wrap {
+        padding: var(--space-lg) var(--container-padding) 0;
+    }
+
+    .gallery-image {
+        height: 45vh;
+    }
 }
 
 /* --------------------------------------------

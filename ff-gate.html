@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="robots" content="noindex">
+    <title>roman coussement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/svg+xml" href="/jackdripper_icon.svg">
+</head>
+<body class="library-page">
+    <div class="library-layout">
+        <!-- Minimal Header with Back Arrow -->
+        <header class="library-header">
+            <a href="/" class="back-arrow" aria-label="Back to home">←</a>
+            <h1 class="site-title">roman coussement</h1>
+        </header>
+
+        <p class="library-intro">enter the date to continue.</p>
+
+        <form id="gateForm" class="gate-form" novalidate>
+            <input type="date" id="gateDate" class="search-input gate-input" aria-label="date" required>
+            <button type="submit" class="page-btn gate-submit">enter</button>
+        </form>
+        <p id="gateError" class="gate-error" role="alert" hidden>that's not it. try again.</p>
+    </div>
+
+    <script src="/assets/baffle.min.js"></script>
+    <script src="/script.js"></script>
+    <script>
+        (function() {
+            var form = document.getElementById('gateForm');
+            var input = document.getElementById('gateDate');
+            var error = document.getElementById('gateError');
+            // Target: January 11, 1998 (no persistence - must re-enter every visit)
+            var TARGET = '1998-01-11';
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (input.value === TARGET) {
+                    error.hidden = true;
+                    window.location.href = '/friends-family.html';
+                } else {
+                    error.hidden = false;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
