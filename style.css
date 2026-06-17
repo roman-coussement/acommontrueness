@@ -223,9 +223,9 @@ a:hover {
 
 .site-subtitle .company-link {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.35em;
-    vertical-align: baseline;
+    vertical-align: middle;
     color: var(--color-text-primary);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
@@ -242,10 +242,10 @@ a:hover {
     vertical-align: baseline;
 }
 
-/* Epoch AI wordmark - inline with subtitle text */
+/* Epoch AI wordmark - inline with subtitle text, sized to text height */
 .site-subtitle .epoch-logo {
     display: block;
-    height: 1em;
+    height: 1.1em;
     width: auto;
     vertical-align: middle;
 }
@@ -956,8 +956,8 @@ body.article-page .art-gallery {
    -------------------------------------------- */
 .ff-link {
     position: fixed;
-    bottom: var(--space-lg);
-    left: var(--space-lg);
+    bottom: 1rem;
+    left: 1rem;
     z-index: 100;
     font-family: var(--font-family-base);
     font-size: var(--font-size-xsmall);
@@ -1113,32 +1113,36 @@ body.gallery-page {
     padding: var(--space-xl) var(--container-padding) 0;
 }
 
+/* The carousel container is itself the horizontal flex scroller. overflow:hidden
+   clips the strip (no scrollbar); scroll position is driven by JS via scrollLeft. */
 .gallery-carousel {
-    margin-top: var(--space-lg);
-    width: 100%;
-    overflow: hidden;          /* no visible scrollbar; position controlled via JS */
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 70vh;
     cursor: grab;
+    width: 100%;
+    margin-top: var(--space-lg);
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none;        /* horizontal drag handled manually */
+    -ms-overflow-style: none;  /* hide scrollbar (IE/Edge) */
+    scrollbar-width: none;     /* hide scrollbar (Firefox) */
+}
+
+.gallery-carousel::-webkit-scrollbar {
+    display: none;             /* hide scrollbar (WebKit) */
 }
 
 .gallery-carousel.dragging {
     cursor: grabbing;
 }
 
-.gallery-track {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    will-change: transform;
-}
-
 .gallery-image {
-    display: block;
-    height: 60vh;
+    height: 100%;
     width: auto;
-    flex: 0 0 auto;
+    flex-shrink: 0;
+    display: block;
+    margin-right: 16px;        /* gap between images (kept consistent for seamless loop) */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     -webkit-user-drag: none;
     user-select: none;
@@ -1150,8 +1154,8 @@ body.gallery-page {
         padding: var(--space-lg) var(--container-padding) 0;
     }
 
-    .gallery-image {
-        height: 45vh;
+    .gallery-carousel {
+        height: 50vh;
     }
 }
 

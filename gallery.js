@@ -1,5 +1,6 @@
 // gallery.js - Endless horizontal carousel (vanilla JS, no build step)
-// Wheel scroll pans horizontally, click-drag pans, content loops seamlessly.
+// The carousel is a flex, overflow:hidden scroll container. We pan it by setting
+// scrollLeft from wheel + drag, and loop endlessly with cloned image nodes.
 
 (function() {
     'use strict';
@@ -69,39 +70,26 @@
     }
 
     function initCarousel(files) {
-        var wrapper = document.getElementById('galleryCarousel');
-        var track = document.getElementById('galleryTrack');
-        if (!wrapper || !track || files.length === 0) return;
-
-        var GAP = 16; // px space between images (kept consistent for seamless looping)
+        var carousel = document.getElementById('galleryCarousel');
+        if (!carousel || files.length === 0) return;
 
         // ----- state -----
-        var period = 0;        // width of one full set of images (incl. trailing gap)
-        var scroll = 0;        // current scroll position; increasing = move right
-        var vel = 0;           // velocity for inertia / wheel glide
-        var dragging = false;
-        var startX = 0;
-        var startScroll = 0;
-        var lastX = 0;
-        var lastDX = 0;
+        var setWidth = 0;     // width of ONE original set of images (the loop period)
         var ready = false;
-
-        var FRICTION = 0.92;
-        var MAX_VEL = 60;
 
         build();
         window.addEventListener('resize', debounce(build, 150));
 
-        // ----- build / measure / clone -----
+        // ----- build: render originals, then clone the set so we can loop endlessly -----
         function build() {
-            track.innerHTML = '';
             ready = false;
+            carousel.innerHTML = '';
 
             var originals = files.map(makeImage);
-            originals.forEach(function(im) { track.appendChild(im); });
+            originals.forEach(function(im) { carousel.appendChild(im); });
 
             settle(originals).then(function() {
-                // Drop any images that failed to load so they don't break measurement
+                // Drop any images that failed to load so they don't break the math
                 var good = originals.filter(function(im) {
                     return im.naturalWidth > 0 && im.offsetWidth > 0;
                 });
@@ -110,18 +98,18 @@
                 });
                 if (good.length === 0) return;
 
-                // One set's advance = sum of widths + a trailing gap after each
-                period = 0;
-                good.forEach(function(im) { period += im.offsetWidth + GAP; });
+                // Append two more clone sets -> [orig][cloneA][cloneB] (3 identical sets).
+                // Starting in the middle set lets us loop in BOTH directions seamlessly.
+                var cloneSetA = good.map(function(im) { return im.cloneNode(true); });
+                var cloneSetB = good.map(function(im) { return im.cloneNode(true); });
+                cloneSetA.forEach(function(c) { carousel.appendChild(c); });
+                cloneSetB.forEach(function(c) { carousel.appendChild(c); });
 
-                // Clone whole sets until the track comfortably covers viewport + one period
-                var needed = Math.ceil((wrapper.offsetWidth + period) / period) + 1;
-                for (var s = 1; s < needed; s++) {
-                    good.forEach(function(im) { track.appendChild(im.cloneNode(true)); });
-                }
+                // The first clone's offset from the start IS the exact set width (incl. gaps).
+                setWidth = cloneSetA[0].offsetLeft;
 
-                scroll = 0;
-                vel = 0;
+                // Park in the middle set so there is a full set of buffer on each side.
+                carousel.scrollLeft = setWidth;
                 ready = true;
             });
         }
@@ -132,7 +120,6 @@
             im.src = ARTWORK_FOLDER + file;
             im.alt = file.replace(IMAGE_EXT, '').replace(/[-_]+/g, ' ');
             im.draggable = false;
-            im.style.marginRight = GAP + 'px';
             return im;
         }
 
@@ -146,78 +133,76 @@
             }));
         }
 
-        // ----- wrap helper -----
-        function wrap() {
-            if (period > 0) {
-                scroll = ((scroll % period) + period) % period;
+        // ----- endless loop: keep scrollLeft within [setWidth, 2*setWidth) -----
+        // Because the three sets are identical, shifting by exactly setWidth is
+        // visually seamless (the same pixels are on screen before and after).
+        function normalize() {
+            if (setWidth <= 0) return;
+            if (carousel.scrollLeft >= setWidth * 2) {
+                carousel.scrollLeft -= setWidth;
+            } else if (carousel.scrollLeft < setWidth) {
+                carousel.scrollLeft += setWidth;
             }
         }
+        carousel.addEventListener('scroll', normalize);
 
-        // ----- animation loop -----
-        function tick() {
-            if (ready) {
-                if (!dragging) {
-                    scroll += vel;
-                    vel *= FRICTION;
-                    if (Math.abs(vel) < 0.04) vel = 0;
-                }
-                wrap();
-                track.style.transform = 'translate3d(' + (-scroll) + 'px,0,0)';
-            }
-            requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-
-        // ----- wheel: vertical (or horizontal) delta -> horizontal pan -----
-        wrapper.addEventListener('wheel', function(e) {
+        // ----- wheel: vertical (or horizontal) delta -> horizontal scrollLeft -----
+        carousel.addEventListener('wheel', function(e) {
             if (!ready) return;
             e.preventDefault();
+            // Use the dominant axis; trackpads send deltaX, mouse wheels send deltaY.
             var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-            // scrolling down (positive) moves right
-            vel += delta * 0.18;
-            if (vel > MAX_VEL) vel = MAX_VEL;
-            if (vel < -MAX_VEL) vel = -MAX_VEL;
+            carousel.scrollLeft += delta; // scrolling down (positive) moves right
+            normalize();
         }, { passive: false });
 
-        // ----- click / touch drag -----
-        wrapper.addEventListener('pointerdown', function(e) {
+        // ----- click & drag panning (mousedown / mousemove / mouseup) -----
+        var isDown = false;
+        var startX = 0;
+        var startScroll = 0;
+
+        carousel.addEventListener('mousedown', function(e) {
             if (!ready) return;
-            dragging = true;
-            startX = e.clientX;
-            startScroll = scroll;
-            lastX = e.clientX;
-            lastDX = 0;
-            vel = 0;
-            wrapper.classList.add('dragging');
-            wrapper.setPointerCapture(e.pointerId);
+            isDown = true;
+            startX = e.pageX;
+            startScroll = carousel.scrollLeft;
+            carousel.classList.add('dragging');
+            e.preventDefault();
         });
 
-        wrapper.addEventListener('pointermove', function(e) {
-            if (!dragging) return;
-            var dx = e.clientX - startX;
-            scroll = startScroll - dx; // drag right -> reveal earlier images
-            lastDX = e.clientX - lastX;
-            lastX = e.clientX;
+        // Listen on window so a drag continues even if the cursor leaves the strip.
+        window.addEventListener('mousemove', function(e) {
+            if (!isDown) return;
+            var dx = e.pageX - startX;
+            carousel.scrollLeft = startScroll - dx; // drag right -> reveal earlier images
+            normalize();
         });
 
-        function endDrag(e) {
-            if (!dragging) return;
-            dragging = false;
-            wrapper.classList.remove('dragging');
-            // carry drag momentum into inertia
-            vel = -lastDX;
-            if (vel > MAX_VEL) vel = MAX_VEL;
-            if (vel < -MAX_VEL) vel = -MAX_VEL;
-            if (e.pointerId != null && wrapper.hasPointerCapture && wrapper.hasPointerCapture(e.pointerId)) {
-                wrapper.releasePointerCapture(e.pointerId);
-            }
-        }
-        wrapper.addEventListener('pointerup', endDrag);
-        wrapper.addEventListener('pointercancel', endDrag);
-        wrapper.addEventListener('pointerleave', endDrag);
+        window.addEventListener('mouseup', function() {
+            if (!isDown) return;
+            isDown = false;
+            carousel.classList.remove('dragging');
+        });
 
-        // Prevent native image drag ghost
-        wrapper.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        // ----- touch panning (mobile) -----
+        var touchX = 0;
+        var touchScroll = 0;
+        carousel.addEventListener('touchstart', function(e) {
+            if (!ready) return;
+            touchX = e.touches[0].pageX;
+            touchScroll = carousel.scrollLeft;
+        }, { passive: true });
+
+        carousel.addEventListener('touchmove', function(e) {
+            if (!ready) return;
+            var dx = e.touches[0].pageX - touchX;
+            carousel.scrollLeft = touchScroll - dx;
+            normalize();
+            e.preventDefault();
+        }, { passive: false });
+
+        // Prevent the native image drag-ghost from hijacking a pan
+        carousel.addEventListener('dragstart', function(e) { e.preventDefault(); });
     }
 
     function debounce(fn, ms) {
