@@ -5,16 +5,11 @@
 (function() {
     'use strict';
 
-    // Base path for GitHub Pages (works at root or subpath)
-    var scriptEl = document.currentScript || document.querySelector('script[src*="gallery.js"]');
-    var BASE = '/';
-    if (scriptEl && scriptEl.src) {
-        var url = new URL(scriptEl.src);
-        // gallery.js lives at the site root; strip the filename
-        BASE = url.pathname.replace(/\/gallery\.js.*$/, '/') || '/';
-    }
-
-    var ARTWORK_FOLDER = BASE + 'artwork/';
+    // Paths are RELATIVE to the gallery page (gallery/index.html). The artwork
+    // folder is a sibling of the gallery folder, so "../artwork/" resolves
+    // correctly whether the site is served at the domain root, a project
+    // subpath, or opened directly via file:// .
+    var ARTWORK_FOLDER = '../artwork/';
     var MANIFEST = ARTWORK_FOLDER + 'artwork.json';
     // The personal photo shown on the home page - not part of the artwork gallery
     var EXCLUDE = ['iceland_photo.png'];

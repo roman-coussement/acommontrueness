@@ -245,9 +245,10 @@ a:hover {
 /* Epoch AI wordmark - inline with subtitle text, sized to text height */
 .site-subtitle .epoch-logo {
     display: block;
-    height: 1.1em;
+    height: 1em;
     width: auto;
     vertical-align: middle;
+    transform: translateY(-0.1em); /* optical centering with adjacent text */
 }
 
 /* Social Links - grid keeps vertical alignment in 2+1 layout */
