@@ -5,16 +5,12 @@ const assert = require("node:assert/strict");
 
 const root = path.resolve(__dirname, "..");
 
-test("Cloudflare deploy configuration excludes repository metadata", () => {
+test("Cloudflare deploys only the generated site on both custom domains", () => {
   const config = JSON.parse(
     fs.readFileSync(path.join(root, "wrangler.json"), "utf8"),
   );
-  const ignoredAssets = fs.readFileSync(
-    path.join(root, ".assetsignore"),
-    "utf8",
-  );
 
-  assert.equal(config.assets.directory, ".");
+  assert.equal(config.assets.directory, "./dist");
   assert.deepEqual(config.routes, [
     {
       pattern: "acommontrueness.com/*",
@@ -25,7 +21,4 @@ test("Cloudflare deploy configuration excludes repository metadata", () => {
       zone_name: "acommontrueness.com",
     },
   ]);
-  assert.match(ignoredAssets, /^\.git\/$/m);
-  assert.match(ignoredAssets, /^\.claude\/$/m);
-  assert.match(ignoredAssets, /^tests\/$/m);
 });
