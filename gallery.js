@@ -9,14 +9,12 @@
     // folder is a sibling of the gallery folder, so "../artwork/" resolves
     // correctly whether the site is served at the domain root, a project
     // subpath, or opened directly via file:// .
-    var ARTWORK_FOLDER = '../artwork/';
-    var MANIFEST = ARTWORK_FOLDER + 'artwork.json';
-    // The personal photo shown on the home page - not part of the artwork gallery
-    var EXCLUDE = ['iceland_photo.png'];
+    var ARTWORK_FOLDER = '../artwork/optimized/';
+    var MANIFEST = '../artwork/gallery-artwork.json';
 
     // Fallback list (mirrors artwork.json) for when fetch is unavailable (file://)
     var FALLBACK = [
-        'ansel-adams-moon-over-half-domr.png',
+        'ansel-adams-moon-over-half-domr.jpg',
         'ansel-adams-petroglyphs.jpg',
         'caravaggio_beheading_of_john.jpg',
         'caravaggio_judith_beheading_holofernes.jpg',
@@ -28,9 +26,9 @@
         'goya_thedog.jpg',
         'hockney_american_collectors_fred_and_marcia_weisman.jpg',
         'hockney_my_parents.jpg',
-        'hockney_portrait_of_an_artist.avif',
+        'hockney_portrait_of_an_artist.jpg',
         'hopper_chop_suey.jpg',
-        'hopper_gas.png',
+        'hopper_gas.jpg',
         'hopper_soir_bleu.jpg',
         'kandinsky-color-study.jpg',
         'kandinsky-impression-iii-concert.jpg',
@@ -59,7 +57,7 @@
             .catch(function() { return FALLBACK; })
             .then(function(files) {
                 return files.filter(function(f) {
-                    return typeof f === 'string' && IMAGE_EXT.test(f) && EXCLUDE.indexOf(f) === -1;
+                    return typeof f === 'string' && IMAGE_EXT.test(f);
                 });
             });
     }
@@ -97,8 +95,14 @@
                 // Starting in the middle set lets us loop in BOTH directions seamlessly.
                 var cloneSetA = good.map(function(im) { return im.cloneNode(true); });
                 var cloneSetB = good.map(function(im) { return im.cloneNode(true); });
-                cloneSetA.forEach(function(c) { carousel.appendChild(c); });
-                cloneSetB.forEach(function(c) { carousel.appendChild(c); });
+                cloneSetA.forEach(appendClone);
+                cloneSetB.forEach(appendClone);
+
+                function appendClone(clone) {
+                    clone.alt = '';
+                    clone.setAttribute('aria-hidden', 'true');
+                    carousel.appendChild(clone);
+                }
 
                 // The first clone's offset from the start IS the exact set width (incl. gaps).
                 setWidth = cloneSetA[0].offsetLeft;
@@ -109,11 +113,14 @@
             });
         }
 
-        function makeImage(file) {
+        function makeImage(file, index) {
             var im = document.createElement('img');
             im.className = 'gallery-image';
             im.src = ARTWORK_FOLDER + file;
             im.alt = file.replace(IMAGE_EXT, '').replace(/[-_]+/g, ' ');
+            im.decoding = 'async';
+            im.loading = 'eager';
+            im.fetchPriority = index < 3 ? 'high' : 'auto';
             im.draggable = false;
             return im;
         }
@@ -139,22 +146,50 @@
                 carousel.scrollLeft += setWidth;
             }
         }
-        carousel.addEventListener('scroll', normalize);
+        var normalizeFrame = null;
+        carousel.addEventListener('scroll', function() {
+            if (normalizeFrame !== null) return;
+            normalizeFrame = requestAnimationFrame(function() {
+                normalize();
+                normalizeFrame = null;
+            });
+        }, { passive: true });
 
         // ----- wheel: vertical (or horizontal) delta -> horizontal scrollLeft -----
+        var pendingWheelDelta = 0;
+        var wheelFrame = null;
+
         carousel.addEventListener('wheel', function(e) {
             if (!ready) return;
             e.preventDefault();
             // Use the dominant axis; trackpads send deltaX, mouse wheels send deltaY.
             var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-            carousel.scrollLeft += delta; // scrolling down (positive) moves right
-            normalize();
+            pendingWheelDelta += delta;
+            if (wheelFrame !== null) return;
+            wheelFrame = requestAnimationFrame(function() {
+                carousel.scrollLeft += pendingWheelDelta;
+                pendingWheelDelta = 0;
+                normalize();
+                wheelFrame = null;
+            });
         }, { passive: false });
 
         // ----- click & drag panning (mousedown / mousemove / mouseup) -----
         var isDown = false;
         var startX = 0;
         var startScroll = 0;
+        var dragTarget = 0;
+        var dragFrame = null;
+
+        function scheduleDrag(target) {
+            dragTarget = target;
+            if (dragFrame !== null) return;
+            dragFrame = requestAnimationFrame(function() {
+                carousel.scrollLeft = dragTarget;
+                normalize();
+                dragFrame = null;
+            });
+        }
 
         carousel.addEventListener('mousedown', function(e) {
             if (!ready) return;
@@ -169,8 +204,7 @@
         window.addEventListener('mousemove', function(e) {
             if (!isDown) return;
             var dx = e.pageX - startX;
-            carousel.scrollLeft = startScroll - dx; // drag right -> reveal earlier images
-            normalize();
+            scheduleDrag(startScroll - dx); // drag right -> reveal earlier images
         });
 
         window.addEventListener('mouseup', function() {
@@ -191,8 +225,7 @@
         carousel.addEventListener('touchmove', function(e) {
             if (!ready) return;
             var dx = e.touches[0].pageX - touchX;
-            carousel.scrollLeft = touchScroll - dx;
-            normalize();
+            scheduleDrag(touchScroll - dx);
             e.preventDefault();
         }, { passive: false });
 

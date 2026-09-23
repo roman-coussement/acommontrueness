@@ -3,18 +3,6 @@
 (function() {
     'use strict';
 
-    // Base path for GitHub Pages (works with subpath or root)
-    var scriptEl = document.currentScript || document.querySelector('script[src*="art-gallery"]');
-    var BASE = '/';
-    if (scriptEl && scriptEl.src) {
-        var url = new URL(scriptEl.src);
-        BASE = url.pathname.replace(/\/[^/]*$/, '/') || '/';
-    }
-
-    // Configuration
-    const ARTWORK_FOLDER = BASE + 'artwork/';
-    const HEADSHOT_IMAGE = 'iceland_photo.png';
-
     document.addEventListener('DOMContentLoaded', function() {
         initHeadshot();
     });
@@ -27,10 +15,6 @@
 
         // Skip on article pages
         if (document.body.classList.contains('article-page')) return;
-
-        // Render the headshot as a fixed, non-interactive image
-        image.src = ARTWORK_FOLDER + HEADSHOT_IMAGE;
-        image.alt = 'roman coussement';
 
         // Disable transitions on initial load to prevent flash
         gallery.style.transition = 'none';
@@ -56,25 +40,10 @@
             handleResize(gallery, image);
         });
 
-        // Reposition after full page load (fonts, images) - fixes GitHub Pages timing
+        // Reposition after fonts and other page assets settle.
         window.addEventListener('load', function() {
             positionGallery(gallery, image);
         });
-
-        // Smooth scroll handling
-        let scrollRAF = null;
-        window.addEventListener('scroll', function() {
-            if (window.innerWidth < 1200) return; // Only on desktop
-
-            if (scrollRAF) {
-                cancelAnimationFrame(scrollRAF);
-            }
-
-            scrollRAF = requestAnimationFrame(function() {
-                positionGallery(gallery, image);
-                scrollRAF = null;
-            });
-        }, { passive: true });
     }
 
     // Optimized positioning function with batched reads/writes
@@ -89,6 +58,7 @@
             gallery.style.paddingTop = '';
             gallery.classList.remove('hidden');
             gallery.classList.remove('gallery-at-bottom');
+            gallery.classList.add('is-ready');
             return;
         }
 
@@ -103,6 +73,7 @@
             gallery.style.removeProperty('--gallery-max-height');
             gallery.style.removeProperty('--gallery-max-width');
             gallery.style.paddingTop = '';
+            gallery.classList.add('is-ready');
             return;
         }
 
@@ -154,6 +125,8 @@
             gallery.classList.add('gallery-at-bottom');
             gallery.style.paddingTop = ''; // Restore default padding
         }
+
+        gallery.classList.add('is-ready');
     }
 
     // Optimized resize handler using requestAnimationFrame

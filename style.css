@@ -140,8 +140,13 @@
 
 html {
     font-size: 16px;
+    scrollbar-gutter: stable;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+@view-transition {
+    navigation: auto;
 }
 
 body {
@@ -409,7 +414,8 @@ a:hover {
 
 /* Content with Sidebar Layout */
 .content-with-sidebar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
     gap: var(--space-3xl);
     align-items: flex-start;
 }
@@ -450,7 +456,7 @@ a:hover {
     }
     
     .content-with-sidebar {
-        display: flex;
+        display: grid;
     }
 }
 
@@ -802,6 +808,8 @@ a:hover {
     padding: var(--space-xl);
     z-index: 10;
     pointer-events: none; /* Allow clicks through container */
+    visibility: hidden;
+    view-transition-name: profile-photo;
     
     /* Smooth transitions for all movements */
     transition: 
@@ -815,6 +823,10 @@ a:hover {
     opacity: 1;
 }
 
+.art-gallery.is-ready {
+    visibility: visible;
+}
+
 /* The image itself */
 .art-image {
     display: block;
@@ -824,6 +836,8 @@ a:hover {
     max-width: var(--gallery-max-width, none);
     cursor: default;
     pointer-events: none; /* Static, non-interactive image */
+    aspect-ratio: 1;
+    object-fit: cover;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     
     /* Smooth size transitions */
@@ -1126,6 +1140,10 @@ body.gallery-page {
     margin-top: var(--space-lg);
     user-select: none;
     -webkit-user-select: none;
+    contain: layout paint;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    transform: translateZ(0);
     -ms-overflow-style: none;  /* hide scrollbar (IE/Edge) */
     scrollbar-width: none;     /* hide scrollbar (Firefox) */
 }
@@ -1148,6 +1166,8 @@ body.gallery-page {
     -webkit-user-drag: none;
     user-select: none;
     pointer-events: none;      /* clicks/drag handled by the container */
+    contain: paint;
+    backface-visibility: hidden;
 }
 
 @media (max-width: 768px) {
