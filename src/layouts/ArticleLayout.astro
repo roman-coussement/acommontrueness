@@ -1,0 +1,33 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import SiteShell from "../components/SiteShell.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+}
+
+const { title, description, date } = Astro.props;
+const displayDate = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(date);
+const machineDate = date.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={`${title} - roman coussement`} description={description} bodyClass="article-page transmission-page">
+  <SiteShell active="writing" showBio={false} showPortrait={false}>
+    <div class="page-content">
+      <nav class="back-nav"><a href="/" class="back-link"><span aria-hidden="true">←</span><span>Back</span></a></nav>
+      <article class="article">
+        <div class="article-meta"><time class="article-date" datetime={machineDate}>{displayDate}</time></div>
+        <h1 class="article-title">{title}</h1>
+        <slot />
+        <div class="article-footer"><a href="/" class="back-to-all">Back to all posts</a></div>
+      </article>
+    </div>
+  </SiteShell>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteShell from "../components/SiteShell.astro";
+import PostList from "../components/PostList.astro";
+
+const posts = (await getCollection("posts"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((post) => ({ title: post.data.title, slug: post.data.slug }));
+---
+
+<BaseLayout title="writing - roman coussement" description="Roman Coussement — writing on technology, science, and human progress.">
+  <SiteShell active="writing">
+    <PostList posts={posts} />
+  </SiteShell>
+</BaseLayout>

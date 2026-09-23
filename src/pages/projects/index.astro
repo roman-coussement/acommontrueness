@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteShell from "../../components/SiteShell.astro";
+import ProjectList from "../../components/ProjectList.astro";
+import { projects } from "../../data/projects";
+---
+
+<BaseLayout title="projects - roman coussement" description="Projects by Roman Coussement.">
+  <SiteShell active="projects">
+    <ProjectList projects={projects} />
+  </SiteShell>
+</BaseLayout>

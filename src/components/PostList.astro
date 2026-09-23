@@ -1,0 +1,30 @@
+---
+interface PostSummary {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  posts: PostSummary[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="posts-list">
+  {posts.map((post) => (
+    <article class="post-item">
+      <a href={`/posts/${post.slug}/`} class="post-link">
+        <div class="post-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 1H3.5C2.67157 1 2 1.67157 2 2.5V13.5C2 14.3284 2.67157 15 3.5 15H12.5C13.3284 15 14 14.3284 14 13.5V6M9 1L14 6M9 1V5.5C9 5.77614 9.22386 6 9.5 6H14"></path>
+          </svg>
+        </div>
+        <div class="post-content"><h3 class="post-title">{post.title}</h3></div>
+        <div class="post-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3L11 8L6 13"></path></svg>
+        </div>
+      </a>
+    </article>
+  ))}
+</div>
