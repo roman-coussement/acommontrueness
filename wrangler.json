@@ -2,6 +2,16 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "acommontrueness",
   "compatibility_date": "2026-09-22",
+  "routes": [
+    {
+      "pattern": "acommontrueness.com/*",
+      "zone_name": "acommontrueness.com"
+    },
+    {
+      "pattern": "www.acommontrueness.com/*",
+      "zone_name": "acommontrueness.com"
+    }
+  ],
   "assets": {
     "directory": "."
   }
