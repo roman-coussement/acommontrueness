@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteTitle from "../../components/SiteTitle.astro";
+---
+
+<BaseLayout title="gallery - roman coussement" description="A collection of some of Roman Coussement's favorite artworks." bodyClass="gallery-page">
+  <div class="gallery-intro-wrap">
+    <header class="library-header">
+      <a href="/" class="back-arrow" aria-label="Back to home">←</a>
+      <SiteTitle />
+    </header>
+    <p class="library-intro">welcome to the gallery, a collection of some of my favorite artworks</p>
+  </div>
+  <div class="gallery-carousel" id="galleryCarousel"></div>
+  <script src="../../scripts/gallery.js"></script>
+</BaseLayout>

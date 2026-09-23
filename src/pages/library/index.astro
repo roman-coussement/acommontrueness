@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteTitle from "../../components/SiteTitle.astro";
+---
+
+<BaseLayout title="library - roman coussement" description="Roman Coussement's personal library." bodyClass="library-page">
+  <div class="library-layout">
+    <header class="library-header">
+      <a href="/" class="back-arrow" aria-label="Back to home">←</a>
+      <SiteTitle />
+    </header>
+    <p class="library-intro">welcome to my library! this is my attempt to catalog all the books i own.</p>
+    <div class="library-container">
+      <div class="library-filters">
+        <input type="text" id="searchInput" placeholder="Search books..." class="search-input" />
+        <select id="categoryFilter" class="filter-select placeholder-selected"><option value="">Type</option></select>
+        <select id="tagFilter" class="filter-select placeholder-selected"><option value="">Tag</option></select>
+        <select id="subtagFilter" class="filter-select placeholder-selected"><option value="">Sub-tag</option></select>
+      </div>
+      <div class="table-wrapper">
+        <table id="libraryTable" class="library-table">
+          <thead><tr><th class="sortable" data-column="author">Author</th><th class="sortable" data-column="title">Title</th></tr></thead>
+          <tbody><tr><td colspan="2" class="loading">Loading library...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="pagination" class="pagination"></div>
+    </div>
+  </div>
+  <script src="../../scripts/library.js"></script>
+</BaseLayout>
