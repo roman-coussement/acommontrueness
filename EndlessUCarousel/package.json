@@ -1,0 +1,30 @@
+{
+  "name": "EndlessUCarousel",
+  "version": "1.0.0",
+  "description": "Exported Framer components: Endless3d",
+  "type": "module",
+  "main": "Endless3d.js",
+  "types": "Endless3d.d.ts",
+  "exports": {
+    ".": {
+      "import": "./Endless3d.js",
+      "types": "./Endless3d.d.ts"
+    },
+    "./Endless3d": {
+      "import": "./Endless3d.js",
+      "types": "./Endless3d.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "framer-motion": ">=10.0.0"
+  },
+  "keywords": [
+    "framer",
+    "react",
+    "components",
+    "exported"
+  ],
+  "license": "MIT"
+}
