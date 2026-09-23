@@ -35,10 +35,16 @@ Edit `src/data/projects.ts`, then run the build and tests. Project entries may i
 
 ## Deployment
 
-Cloudflare's connected build uses:
+Cloudflare's connected Workers Build uses this deploy command:
 
-- Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+```bash
+npm run deploy
+```
+
+That package script runs `npm run build` before `wrangler deploy`, so a fresh
+clone always creates `dist/` before Wrangler uploads it. Do not configure the
+connected build to run only `npx wrangler deploy`; Cloudflare Workers Builds
+does not run Wrangler's custom-build configuration.
 - Static asset directory: `./dist`
 
 To build and deploy from an authenticated local environment:
