@@ -2,7 +2,7 @@
 
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { createPopulation, stepSimulation, countStates } = require("../posts/understanding-transmission/sir-model.js");
+const { createPopulation, stepSimulation, countStates } = require("../public/scripts/sir-model.js");
 
 test("createPopulation assigns vaccinated and infected people without overlap", () => {
     const agents = createPopulation({
