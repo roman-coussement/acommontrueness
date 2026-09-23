@@ -1,0 +1,11 @@
+.git/
+.github/
+.claude/
+.wrangler/
+node_modules/
+tests/
+
+.DS_Store
+.assetsignore
+.gitignore
+wrangler.json
