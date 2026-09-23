@@ -46,7 +46,7 @@ test("every shared public asset exists", () => {
     "public/library.csv",
   ];
 
-  const gallery = JSON.parse(read("artwork/gallery-artwork.json"));
+  const gallery = JSON.parse(read("public/artwork/gallery-artwork.json"));
   gallery.forEach((file) => expected.push(`public/artwork/optimized/${file}`));
 
   expected.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), file));

@@ -1,105 +1,64 @@
-# Personal Website
+# acommontrueness.com
 
-Minimalist personal website built with pure HTML and CSS. Hosted on GitHub Pages.
+Roman Coussement's personal website. Astro generates a static site that Cloudflare serves from `dist/`.
 
-## File Structure
+## Local development
 
-```
-/
-├── index.html          # Homepage listing all posts
-├── style.css           # Global styles
-├── posts/              # Individual article pages
-│   ├── template.html   # Template for new posts
-│   └── *.html          # Published articles
-└── assets/             # Images and icons
-    ├── images/
-    └── icons/
+```bash
+npm install
+npm run dev
 ```
 
-## Adding New Posts
+Astro prints the local URL when the development server starts.
 
-### Method 1: Manual HTML (Current)
+## Verification
 
-1. Copy `posts/template.html` to `posts/your-new-post.html`
-2. Edit the new file:
-   - Update `<title>` and meta description
-   - Change the `<time>` datetime attribute and display text
-   - Replace `[ARTICLE TITLE]` with your title
-   - Fill in the `.article-body` with your content
-3. Add entry to homepage `index.html`:
-
-```html
-<article class="post-item">
-    <a href="posts/your-new-post.html" class="post-link">
-        <div class="post-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M9 1H3.5C2.67157 1 2 1.67157 2 2.5V13.5C2 14.3284 2.67157 15 3.5 15H12.5C13.3284 15 14 14.3284 14 13.5V6M9 1L14 6M9 1V5.5C9 5.77614 9.22386 6 9.5 6H14"/>
-            </svg>
-        </div>
-        <div class="post-content">
-            <h3 class="post-title">Your New Post Title</h3>
-            <p class="post-description">Short description</p>
-        </div>
-        <div class="post-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 3L11 8L6 13"/>
-            </svg>
-        </div>
-    </a>
-</article>
+```bash
+npm test
+npm run build
+npm run preview
 ```
 
-4. Commit and push to GitHub
+`npm test` runs the Node test suite. `npm run build` regenerates the production site in `dist/`. `npm run preview` serves that production build locally.
 
-### Future: Static Site Generator
+## Publishing a post
 
-Plan to migrate to 11ty for Markdown-based content management.
+1. Add a Markdown file to `src/content/posts/`.
+2. Include `title`, `description`, `date`, and `slug` in its frontmatter.
+3. Run `npm run build && npm test`.
 
-## Customization
+The Writing list and `/posts/{slug}/` route are generated from the content collection.
 
-Replace placeholder values across all HTML files:
+## Updating projects
 
-- `[YOUR NAME]` — Your full name
-- `[YOUR TITLE]` — Your job title or role
-- `[COMPANY NAME]` — Your company or organization
-- `[USERNAME]` — Your Twitter/X and GitHub username
+Edit `src/data/projects.ts`, then run the build and tests. Project entries may include an external `href`; entries without one render as plain text.
 
-## Design System
+## Deployment
 
-### Colors
+Cloudflare's connected build uses:
 
-- Text Primary: `#111827`
-- Text Body: `#374151`
-- Text Secondary: `#6b7280`
-- Text Tertiary: `#9ca3af`
-- Link Blue: `#3b82f6`
-- Background: `#ffffff`
-- Border: `#e5e7eb`
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Static asset directory: `./dist`
 
-### Typography
+To build and deploy from an authenticated local environment:
 
-- Font Stack: System fonts (-apple-system, BlinkMacSystemFont, etc.)
-- Base Size: 16px
-- Line Height: 1.5 (body), 1.7 (article)
+```bash
+npm run deploy
+```
 
-### Spacing Scale
+The Wrangler configuration routes both `acommontrueness.com` and `www.acommontrueness.com` through the static Worker deployment.
 
-- XS: 4px
-- SM: 8px
-- MD: 16px
-- LG: 24px
-- XL: 32px
-- 2XL: 48px
-- 3XL: 64px
+## Structure
 
-## Browser Support
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- iOS Safari (latest)
-- Chrome Mobile (latest)
-
-## License
-
-MIT License — see [LICENSE](LICENSE) for details.
+```text
+src/components/        Shared site components
+src/content/posts/     Published Markdown posts
+src/data/              Small structured content collections
+src/layouts/           Document and article layouts
+src/pages/             Public Astro routes
+src/scripts/           Page-specific browser behavior
+src/styles/            Global design system
+public/                Static assets and retained standalone pages
+tests/                 Build, content, interaction, and deployment checks
+```

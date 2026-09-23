@@ -6,43 +6,10 @@
 /* --------------------------------------------
    FONTS
    -------------------------------------------- */
-@font-face {
-    font-family: "Figtree";
-    src: url("Figtree/Figtree-VariableFont_wght.ttf") format("truetype");
-    font-weight: 300 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Figtree";
-    src: url("Figtree/Figtree-Italic-VariableFont_wght.ttf") format("truetype");
-    font-weight: 300 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Urbanist";
-    src: url("Urbanist/Urbanist-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Urbanist";
-    src: url("Urbanist/Urbanist-Italic-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-/* Averia Serif Libre - loaded via Google Fonts in HTML for reliable online display;
-   local @font-face kept as offline fallback */
+/* Averia Serif Libre is self-hosted so the site has no third-party font request. */
 @font-face {
     font-family: "Averia Serif Libre";
-    src: url("/Averia_Serif_Libre/AveriaSerifLibre-Regular.ttf") format("truetype");
+    src: url("/fonts/averia-serif-libre/AveriaSerifLibre-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -50,7 +17,7 @@
 
 @font-face {
     font-family: "Averia Serif Libre";
-    src: url("/Averia_Serif_Libre/AveriaSerifLibre-Italic.ttf") format("truetype");
+    src: url("/fonts/averia-serif-libre/AveriaSerifLibre-Italic.ttf") format("truetype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
@@ -58,7 +25,7 @@
 
 @font-face {
     font-family: "Averia Serif Libre";
-    src: url("/Averia_Serif_Libre/AveriaSerifLibre-Bold.ttf") format("truetype");
+    src: url("/fonts/averia-serif-libre/AveriaSerifLibre-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -66,7 +33,7 @@
 
 @font-face {
     font-family: "Averia Serif Libre";
-    src: url("/Averia_Serif_Libre/AveriaSerifLibre-BoldItalic.ttf") format("truetype");
+    src: url("/fonts/averia-serif-libre/AveriaSerifLibre-BoldItalic.ttf") format("truetype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -210,6 +177,26 @@ a:hover {
     margin-bottom: var(--space-sm);
     line-height: var(--line-height-tight);
     transition: opacity 0.2s ease-in-out;
+}
+
+.site-title-alternate,
+html[data-title-state="title"] .site-title-name {
+    display: none;
+}
+
+html[data-title-state="title"] .site-title-alternate {
+    display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* Prevent text selection during animation */
