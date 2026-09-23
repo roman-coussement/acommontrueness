@@ -1474,3 +1474,334 @@ body.gallery-page {
         font-size: 24pt;
     }
 }
+
+/* --------------------------------------------
+   INFECTIOUS DISEASE TRANSMISSION EXPLAINER
+   -------------------------------------------- */
+.transmission-page .container {
+    max-width: 88rem;
+}
+
+.transmission-page .article-title {
+    max-width: 48rem;
+}
+
+.transmission-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(25rem, 0.96fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+}
+
+.transmission-copy {
+    min-width: 0;
+}
+
+.transmission-copy > h2:first-child {
+    margin-top: 0;
+}
+
+.transmission-copy h3 {
+    font-size: 1.08rem;
+    line-height: 1.45;
+}
+
+.article-disclosure {
+    margin-top: var(--space-lg);
+}
+
+.article-disclosure summary {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    cursor: pointer;
+    list-style: none;
+}
+
+.article-disclosure summary::-webkit-details-marker {
+    display: none;
+}
+
+.article-disclosure summary::before {
+    content: "+";
+    flex: 0 0 1rem;
+    margin-top: 0.08rem;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-family-base);
+    font-size: 1.1rem;
+    line-height: 1.45;
+}
+
+.article-disclosure[open] summary::before {
+    content: "−";
+}
+
+.article-disclosure summary h3 {
+    margin: 0;
+}
+
+.article-disclosure summary:focus-visible {
+    outline: 2px solid var(--color-text-link);
+    outline-offset: 3px;
+}
+
+.article-disclosure-content {
+    padding-left: 1.5rem;
+}
+
+.transmission-copy sup {
+    margin-left: 0.1em;
+    font-size: 0.72em;
+}
+
+.transmission-table-wrap {
+    margin: var(--space-lg) 0;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.transmission-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: var(--font-size-small);
+    line-height: 1.45;
+}
+
+.transmission-table .pathogen-column { width: 32%; }
+.transmission-table .range-column { width: 22%; }
+.transmission-table .notes-column { width: 46%; }
+
+.transmission-table th,
+.transmission-table td {
+    padding: 0.65rem 0.75rem;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+
+.transmission-table th:last-child,
+.transmission-table td:last-child {
+    border-right: 0;
+}
+
+.transmission-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.transmission-table th {
+    background: #f1f3f5;
+    color: var(--color-text-primary);
+}
+
+.article-notes {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.article-notes ol {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+}
+
+.simulator-panel {
+    min-width: 0;
+    font-family: var(--font-family-base);
+}
+
+.simulator-sticky {
+    position: sticky;
+    top: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    box-shadow: 0 12px 40px rgba(17, 24, 39, 0.055);
+}
+
+.simulator-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-bottom: var(--space-sm);
+}
+
+.simulator-heading h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.simulator-intro,
+.simulator-caveat {
+    font-family: var(--font-family-base);
+    color: var(--color-text-secondary) !important;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+}
+
+.simulator-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.simulator-actions button {
+    border: 1px solid var(--color-text-primary);
+    border-radius: 0.2rem;
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    padding: 0.35rem;
+    background: var(--color-text-primary);
+    color: #fff;
+    font-family: var(--font-family-base);
+    cursor: pointer;
+}
+
+.simulator-actions svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
+#simulation-toggle .pause-icon,
+#simulation-toggle[data-state="running"] .play-icon {
+    display: none;
+}
+
+#simulation-toggle[data-state="running"] .pause-icon {
+    display: block;
+}
+
+.simulator-actions .button-secondary {
+    background: #fff;
+    color: var(--color-text-primary);
+}
+
+.simulator-actions button:focus-visible,
+.simulator-controls input:focus-visible {
+    outline: 2px solid var(--color-text-link);
+    outline-offset: 2px;
+}
+
+.simulator-legend,
+.simulator-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0.75rem 0;
+    font-family: var(--font-family-base);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.3rem;
+    border-radius: 50%;
+}
+
+.legend-dot.susceptible { background: #5795b5; }
+.legend-dot.infected { background: #cf5b46; }
+.legend-dot.recovered { background: #8a9a5b; }
+
+.simulation-canvas,
+.sir-chart {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    background: #fbfcfd;
+}
+
+.simulation-canvas {
+    height: clamp(15rem, 31vw, 23rem);
+}
+
+.sir-chart {
+    height: 10.5rem;
+}
+
+.simulator-counts {
+    justify-content: flex-end;
+    margin: 0.45rem 0;
+}
+
+.simulator-counts strong {
+    color: var(--color-text-primary);
+}
+
+.simulator-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    margin-top: var(--space-md);
+    font-family: var(--font-family-base);
+}
+
+.simulator-controls label {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    color: var(--color-text-secondary);
+    font-size: 0.73rem;
+}
+
+.simulator-controls output {
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.simulator-controls input[type="range"] {
+    width: 100%;
+    margin: 0 0 0.55rem;
+    accent-color: var(--color-text-link);
+}
+
+.simulator-caveat {
+    margin-top: var(--space-sm);
+    margin-bottom: 0 !important;
+}
+
+@media (max-width: 1100px) {
+    .transmission-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .simulator-panel {
+        grid-row: 1;
+    }
+
+    .simulator-sticky {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    .simulator-heading {
+        display: block;
+    }
+
+    .simulator-actions {
+        margin-top: var(--space-sm);
+    }
+
+    .simulation-canvas {
+        height: 18rem;
+    }
+}
+
+@media print {
+    .simulator-panel {
+        display: none;
+    }
+
+    .transmission-layout {
+        display: block;
+    }
+}
