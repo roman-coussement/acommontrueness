@@ -1,0 +1,44 @@
+---
+import Bio from "./Bio.astro";
+import Portrait from "./Portrait.astro";
+import SiteNav from "./SiteNav.astro";
+import SocialLinks from "./SocialLinks.astro";
+
+interface Props {
+  active: "writing" | "projects" | "library" | "gallery";
+  showBio?: boolean;
+  showPortrait?: boolean;
+}
+
+const { active, showBio = true, showPortrait = true } = Astro.props;
+---
+
+<div class="container">
+  <header class="site-header">
+    <h1 class="site-title">roman coussement</h1>
+    <p class="site-subtitle">
+      special projects at
+      <a href="https://epoch.ai/" target="_blank" rel="noopener noreferrer" class="company-link">
+        <img class="epoch-logo" src="/images/epoch-full-standard.svg" alt="Epoch AI" />
+      </a>
+    </p>
+    <SocialLinks />
+  </header>
+
+  <main class="content">
+    {showBio && <Bio />}
+    <SiteNav active={active} variant="mobile" />
+    <div class="content-with-sidebar">
+      <SiteNav active={active} variant="desktop" />
+      <slot />
+    </div>
+  </main>
+
+  {showPortrait && <Portrait />}
+  <footer class="site-footer"></footer>
+</div>
+
+<a href="/pastpresent/" class="pastpresent-icon" aria-label="Past Present essay">
+  <img src="/icons/horseman.svg" alt="" />
+</a>
+<a href="/ff-gate.html" class="ff-link">f&amp;f</a>

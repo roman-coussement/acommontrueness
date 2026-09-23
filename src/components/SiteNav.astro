@@ -1,0 +1,22 @@
+---
+interface Props {
+  active: "writing" | "projects" | "library" | "gallery";
+  variant: "mobile" | "desktop";
+}
+
+const { active, variant } = Astro.props;
+const items = [
+  ["writing", "/"],
+  ["projects", "/projects/"],
+  ["library", "/library/"],
+  ["gallery", "/gallery/"],
+] as const;
+---
+
+<nav class={`nav-menu nav-menu-${variant}`} aria-label="Primary">
+  {items.map(([label, href]) => (
+    <a href={href} class:list={["nav-item", { active: active === label }]} aria-current={active === label ? "page" : undefined}>
+      {label}
+    </a>
+  ))}
+</nav>
