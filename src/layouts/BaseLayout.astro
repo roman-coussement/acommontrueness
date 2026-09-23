@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title: string;
@@ -20,8 +21,18 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <script is:inline>
+      try {
+        const value = localStorage.getItem("titleState");
+        document.documentElement.dataset.titleState = value === "title" ? "title" : "name";
+      } catch {
+        document.documentElement.dataset.titleState = "name";
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/icons/jackdripper.svg" />
     <title>{title}</title>
+    <ClientRouter />
+    <script is:inline src="/assets/baffle.min.js"></script>
   </head>
   <body class={bodyClass}>
     <slot />

@@ -2,6 +2,7 @@
 import Bio from "./Bio.astro";
 import Portrait from "./Portrait.astro";
 import SiteNav from "./SiteNav.astro";
+import SiteTitle from "./SiteTitle.astro";
 import SocialLinks from "./SocialLinks.astro";
 
 interface Props {
@@ -15,7 +16,7 @@ const { active, showBio = true, showPortrait = true } = Astro.props;
 
 <div class="container">
   <header class="site-header">
-    <h1 class="site-title">roman coussement</h1>
+    <SiteTitle />
     <p class="site-subtitle">
       special projects at
       <a href="https://epoch.ai/" target="_blank" rel="noopener noreferrer" class="company-link">
